@@ -1,6 +1,7 @@
 import pytest
 import string
 from my_wordle import MyWordle
+from my_wordle import STATUS
 
 
 @pytest.fixture
@@ -79,7 +80,7 @@ def test_DとRとIがMATCHしててAとBがAVAILABLEでCがMISSINGで他はは�
 # TODO: ゲーム開始時にアルファベットの一覧を表示する
 # - [x] アルファベットのリストを返す
 # TODO: 入力された単語の文字が正解の単語で使われていなかったらアルファベットの一覧でそのことを伝える
-# - [ ] アルファベットのリストの下に正解に使われているかわかったらO、使われていないならX、不明なら?となっている文字列を返す
+# - [x] アルファベットのリストの下に正解に使われているかわかったらO、使われていないならX、不明なら?となっている文字列を返す
 # TODO: 入力された文字を全部大文字に変える
 
 # テストしやすさ: 低い、重要度: 高い
