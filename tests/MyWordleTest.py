@@ -18,12 +18,12 @@ def test_何も入力されていない時はハテナを返す(my_wordle):
     assert gotten == expected_string
 
 
-# 入力した単語が正解の単語とDとRとIが一致していたらDとRとIの位置に○をつけた文字を返す。使っていないVとEの位置には×を返す。
+# 入力した単語が正解の単語とDとRとIが一致していたらDとRとIの位置にOをつけた文字を返す。使っていないVとEの位置にはXを返す。
 def test_使っていればマル使っていなければバツ(my_wordle):
     input_word = "DRIVE"
     answer_word = "DRINK"
     gotten = my_wordle.get_alphabet_status(input_word, answer_word)
-    expected_string = "\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n???○×???○????????○???×????"
+    expected_string = "\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n???OX???O????????O???X????"
     assert gotten == expected_string
 
 
@@ -33,6 +33,41 @@ def test_どの文字も使うかどうかわからない状態の時は全部�
     my_wordle.alphabet_status = status
     expected_string = "\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n??????????????????????????"
     gotten = my_wordle.get_string_status()
+    assert gotten == expected_string
+
+
+def test_DとRとIがMATCHしててAとBがAVAILABLEでCがMISSINGで他ははてな(my_wordle):
+    status = {
+        "A": STATUS.AVAILABLE,
+        "B": STATUS.AVAILABLE,
+        "C": STATUS.MISSING,
+        "D": STATUS.MATCHED,
+        "E": STATUS.UNKNOWN,
+        "F": STATUS.UNKNOWN,
+        "G": STATUS.UNKNOWN,
+        "H": STATUS.UNKNOWN,
+        "I": STATUS.MATCHED,
+        "J": STATUS.UNKNOWN,
+        "K": STATUS.UNKNOWN,
+        "L": STATUS.UNKNOWN,
+        "M": STATUS.UNKNOWN,
+        "N": STATUS.UNKNOWN,
+        "O": STATUS.UNKNOWN,
+        "P": STATUS.UNKNOWN,
+        "Q": STATUS.UNKNOWN,
+        "R": STATUS.MATCHED,
+        "S": STATUS.UNKNOWN,
+        "T": STATUS.UNKNOWN,
+        "U": STATUS.UNKNOWN,
+        "V": STATUS.UNKNOWN,
+        "W": STATUS.UNKNOWN,
+        "X": STATUS.UNKNOWN,
+        "Y": STATUS.UNKNOWN,
+        "Z": STATUS.UNKNOWN,
+    }
+    my_wordle.alphabet_status = status
+    gotten = my_wordle.get_string_status()
+    expected_string = "\nABCDEFGHIJKLMNOPQRSTUVWXYZ\nAAXO????O????????O????????"
     assert gotten == expected_string
 
 
