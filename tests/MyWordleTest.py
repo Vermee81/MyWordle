@@ -1,4 +1,5 @@
 import pytest
+import string
 from my_wordle import MyWordle
 
 
@@ -23,6 +24,15 @@ def test_使っていればマル使っていなければバツ(my_wordle):
     answer_word = "DRINK"
     gotten = my_wordle.get_alphabet_status(input_word, answer_word)
     expected_string = "\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n???○×???○????????○???×????"
+    assert gotten == expected_string
+
+
+# アルファベットの正答状態から画面に表示する文字列を返す
+def test_どの文字も使うかどうかわからない状態の時は全部はてな(my_wordle):
+    status = {a: STATUS.UNKNOWN for a in string.ascii_uppercase}
+    my_wordle.alphabet_status = status
+    expected_string = "\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n??????????????????????????"
+    gotten = my_wordle.get_string_status()
     assert gotten == expected_string
 
 
