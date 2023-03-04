@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "mywordle"
+version = "0.1.0"
+description = ""
+authors = ["Vermee81 <hrksb5029@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "==7.2.1"
+black = "==23.1.0"
+mypy = "==1.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
