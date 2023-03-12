@@ -72,6 +72,22 @@ def test_DとRとIがMATCHしててAとBがAVAILABLEでCがMISSINGで他はは�
     assert gotten == expected_string
 
 
+def test_入力した1文字が位置して1文字が存在して他はハズレ(my_wordle):
+    input_word = "BLIND"
+    ans_word = "PRIDE"
+    expected = "\nBLIND\nXXOXA"
+    gotten = my_wordle.get_result(input_word, ans_word)
+    assert gotten == expected
+
+
+def test_入力した文字が全部ハズレ(my_wordle):
+    input_word = "BLIND"
+    ans_word = "STAMP"
+    expected = "\nBLIND\nXXXXX"
+    gotten = my_wordle.get_result(input_word, ans_word)
+    assert gotten == expected
+
+
 # テストしやすさ: 高い、重要度: 高い
 # TODO: プレイヤーが単語を入力したら、入力した単語が正解の文字と一致していたか記号を使って結果を表示する
 # TODO: 入力された単語の文字と正解の単語の文字の位置と種類が一致していたら'O'でそのことを伝える
