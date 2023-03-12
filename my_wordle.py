@@ -25,6 +25,17 @@ class MyWordle:
             string_status += status.value
         return string_status
 
+    def get_result(self, input_word: str, answer_word: str) -> str:
+        ans_string = "\n" + input_word + "\n"
+        for i_l, a_l in zip(input_word, answer_word):
+            if i_l == a_l:
+                ans_string += STATUS.MATCHED.value
+            elif i_l in answer_word:
+                ans_string += STATUS.AVAILABLE.value
+            else:
+                ans_string += STATUS.MISSING.value
+        return ans_string
+
 
 class STATUS(Enum):
     UNKNOWN = "?"
