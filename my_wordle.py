@@ -5,17 +5,28 @@ from enum import Enum
 class MyWordle:
     def __init__(self):
         self.alphabet_status = {a: STATUS.UNKNOWN for a in string.ascii_uppercase}
+        self.input_status = {}
 
-    def get_alphabet_status(self, input_word: str, answer_word: str) -> str:
+    def update_status(self, input_word: str, answer_word: str):
+        self.input_status = {i: STATUS.UNKNOWN for i in input_word}
         for i_l, a_l in zip(input_word, answer_word):
             if i_l == a_l:
+                self.input_status[i_l] = STATUS.MATCHED
                 self.alphabet_status[i_l] = STATUS.MATCHED
-                continue
-            if i_l in answer_word:
-                self.alphabet_status[i_l] = STATUS.AVAILABLE
-                continue
-            self.alphabet_status[i_l] = STATUS.MISSING
+            elif i_l in answer_word:
+                self.input_status[i_l] = STATUS.AVAILABLE
+                if self.alphabet_status[i_l] != STATUS.MATCHED:
+                    self.alphabet_status[i_l] = STATUS.AVAILABLE
+            else:
+                if (
+                    self.alphabet_status[i_l] != STATUS.MATCHED
+                    or self.alphabet_status[i_l] != STATUS.AVAILABLE
+                ):
+                    self.input_status[i_l] = STATUS.MISSING
+                    self.alphabet_status[i_l] = STATUS.MISSING
 
+    def get_alphabet_status(self, input_word: str, answer_word: str) -> str:
+        self.update_status(input_word, answer_word)
         return self.get_string_status()
 
     def get_string_status(self) -> str:
@@ -27,13 +38,8 @@ class MyWordle:
 
     def get_result(self, input_word: str, answer_word: str) -> str:
         ans_string = "\n" + input_word + "\n"
-        for i_l, a_l in zip(input_word, answer_word):
-            if i_l == a_l:
-                ans_string += STATUS.MATCHED.value
-            elif i_l in answer_word:
-                ans_string += STATUS.AVAILABLE.value
-            else:
-                ans_string += STATUS.MISSING.value
+        self.update_status(input_word, answer_word)
+        ans_string += "".join([self.input_status[i].value for i in input_word])
         return ans_string
 
 
