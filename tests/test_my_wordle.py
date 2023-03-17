@@ -2,6 +2,7 @@ import pytest
 import string
 from my_wordle import MyWordle
 from my_wordle import STATUS
+from my_wordle import GameStatus
 
 
 @pytest.fixture
@@ -88,21 +89,33 @@ def test_入力した文字が全部ハズレ(my_wordle):
     assert gotten == expected
 
 
+def test_入力した文字が全部正解していたらTrue(my_wordle):
+    my_wordle.input_status = {
+        "A": STATUS.MATCHED,
+        "B": STATUS.MATCHED,
+        "C": STATUS.MATCHED,
+    }
+    gotten = my_wordle.is_all_matched()
+    assert gotten == True
+
+
+def test_入力した文字が1文字でも不正解ならFalse(my_wordle):
+    my_wordle.input_status = {
+        "Z": STATUS.MATCHED,
+        "X": STATUS.AVAILABLE,
+        "Y": STATUS.UNKNOWN,
+    }
+    gotten = my_wordle.is_all_matched()
+    assert gotten == False
+
+
 # テストしやすさ: 高い、重要度: 高い
-# TODO: プレイヤーが単語を入力したら、入力した単語が正解の文字と一致していたか記号を使って結果を表示する
-# TODO: 入力された単語の文字と正解の単語の文字の位置と種類が一致していたら'O'でそのことを伝える
-# TODO: 入力された単語の文字が正解の単語の中で使われていたら'A'でそのことを伝える
-# TODO: 入力された単語の文字が正解の単語で使われていなかったら'X'でそのことを伝える
+# TODO: 同じ文字が入力されても結果を正しく返す
 # TODO: ゲーム開始時にアルファベットの一覧を表示する
-# - [x] アルファベットのリストを返す
-# TODO: 入力された単語の文字が正解の単語で使われていなかったらアルファベットの一覧でそのことを伝える
-# - [x] アルファベットのリストの下に正解に使われているかわかったらO、使われていないならX、不明なら?となっている文字列を返す
 # TODO: 入力された文字を全部大文字に変える
 
 # テストしやすさ: 低い、重要度: 高い
 # テストしやすさ: 高い、重要度: 低い
 # テストしやすさ: 低い、重要度: 低い
 
-# TODO: 決められた回数だけプレイヤーが単語を入力する
-# TODO: 決められた回数の中で入力された単語が正解と一致していたらプレイヤーが勝ち
 # TODO: ゲームのたびに正解の単語が変わる
