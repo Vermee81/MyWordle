@@ -89,28 +89,36 @@ def test_入力した文字が全部ハズレ(my_wordle):
     assert gotten == expected
 
 
+# 同じ文字が連続して使われていた時に、MATCHEDとAVAILABLEを正しく返す
+def test_同じ文字が連続して使われていた時にMATCHEDとAVAILABLEを正しく返す(my_wordle):
+    input_word = "IIIII"
+    ans_word = "SPLIT"
+    expected = "\nIIIII\nAAAOA"
+    gotten = my_wordle.get_result(input_word, ans_word)
+    assert gotten == expected
+
+
 def test_入力した文字が全部正解していたらTrue(my_wordle):
-    my_wordle.input_status = {
-        "A": STATUS.MATCHED,
-        "B": STATUS.MATCHED,
-        "C": STATUS.MATCHED,
-    }
+    my_wordle.input_status = [
+        ["A", STATUS.MATCHED],
+        ["B", STATUS.MATCHED],
+        ["C", STATUS.MATCHED],
+    ]
     gotten = my_wordle.is_all_matched()
     assert gotten == True
 
 
 def test_入力した文字が1文字でも不正解ならFalse(my_wordle):
-    my_wordle.input_status = {
-        "Z": STATUS.MATCHED,
-        "X": STATUS.AVAILABLE,
-        "Y": STATUS.UNKNOWN,
-    }
+    my_wordle.input_status = [
+        ["Z", STATUS.MATCHED],
+        ["X", STATUS.AVAILABLE],
+        ["Y", STATUS.UNKNOWN],
+    ]
     gotten = my_wordle.is_all_matched()
     assert gotten == False
 
 
 # テストしやすさ: 高い、重要度: 高い
-# TODO: 同じ文字が入力されても結果を正しく返す
 # TODO: ゲーム開始時にアルファベットの一覧を表示する
 # TODO: 入力された文字を全部大文字に変える
 
