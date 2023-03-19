@@ -99,21 +99,21 @@ def test_同じ文字が連続して使われていた時にMATCHEDとAVAILABLE�
 
 
 def test_入力した文字が全部正解していたらTrue(my_wordle):
-    my_wordle.input_status = {
-        "A": STATUS.MATCHED,
-        "B": STATUS.MATCHED,
-        "C": STATUS.MATCHED,
-    }
+    my_wordle.input_status = [
+        ["A", STATUS.MATCHED],
+        ["B", STATUS.MATCHED],
+        ["C", STATUS.MATCHED],
+    ]
     gotten = my_wordle.is_all_matched()
     assert gotten == True
 
 
 def test_入力した文字が1文字でも不正解ならFalse(my_wordle):
-    my_wordle.input_status = {
-        "Z": STATUS.MATCHED,
-        "X": STATUS.AVAILABLE,
-        "Y": STATUS.UNKNOWN,
-    }
+    my_wordle.input_status = [
+        ["Z", STATUS.MATCHED],
+        ["X", STATUS.AVAILABLE],
+        ["Y", STATUS.UNKNOWN],
+    ]
     gotten = my_wordle.is_all_matched()
     assert gotten == False
 
