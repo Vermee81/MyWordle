@@ -25,7 +25,6 @@ class MyWordle:
         self.attempts = 6
 
     def update_status(self, input_word: str, answer_word: str):
-        # self.input_status = {i: STATUS.UNKNOWN for i in input_word}
         self.input_status = [[i, STATUS.UNKNOWN] for i in input_word]
         for i, i_l, a_l in zip(range(len(input_word)), input_word, answer_word):
             if i_l == a_l:
