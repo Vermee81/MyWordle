@@ -2,7 +2,6 @@ import pytest
 import string
 from my_wordle import MyWordle
 from my_wordle import STATUS
-from my_wordle import GameStatus
 
 
 @pytest.fixture
@@ -120,10 +119,7 @@ def test_入力した文字が1文字でも不正解ならFalse(my_wordle):
 
 # テストしやすさ: 高い、重要度: 高い
 # TODO: ゲーム開始時にアルファベットの一覧を表示する
-# TODO: 入力された文字を全部大文字に変える
 
 # テストしやすさ: 低い、重要度: 高い
 # テストしやすさ: 高い、重要度: 低い
 # テストしやすさ: 低い、重要度: 低い
-
-# TODO: ゲームのたびに正解の単語が変わる

@@ -1,5 +1,7 @@
 import string
 from enum import Enum
+from random import choice
+from word_list import WORD_LIST
 
 
 class GameStatus(Enum):
@@ -23,7 +25,6 @@ class MyWordle:
         self.attempts = 6
 
     def update_status(self, input_word: str, answer_word: str):
-        # self.input_status = {i: STATUS.UNKNOWN for i in input_word}
         self.input_status = [[i, STATUS.UNKNOWN] for i in input_word]
         for i, i_l, a_l in zip(range(len(input_word)), input_word, answer_word):
             if i_l == a_l:
@@ -76,10 +77,14 @@ class MyWordle:
 
 if __name__ == "__main__":
     my_wordle = MyWordle()
-    my_wordle.answer = "CIDER"
+    my_wordle.answer = str.upper(choice(WORD_LIST))
     print("Guess a 5 letter word")
     while my_wordle.check_game_status() == GameStatus.CONTINUE:
         input_str = input()
+        if input_str not in WORD_LIST:
+            print("It is not in my word list. Please try another word.")
+            continue
+        input_str = str.upper(input_str)
         print(my_wordle.get_result(input_str, my_wordle.answer))
         print(my_wordle.get_alphabet_status(input_str, my_wordle.answer))
         my_wordle.attempts -= 1
@@ -88,4 +93,4 @@ if __name__ == "__main__":
         print("You won the game!!!")
 
     if my_wordle.check_game_status() == GameStatus.LOSE:
-        print("You lose. You can try next time.")
+        print(f"You lose. The answer was {my_wordle.answer}. You can try next time.")
