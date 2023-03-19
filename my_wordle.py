@@ -19,17 +19,18 @@ class MyWordle:
     def __init__(self):
         self.answer = ""
         self.alphabet_status = {a: STATUS.UNKNOWN for a in string.ascii_uppercase}
-        self.input_status = {}
+        self.input_status = []
         self.attempts = 6
 
     def update_status(self, input_word: str, answer_word: str):
-        self.input_status = {i: STATUS.UNKNOWN for i in input_word}
-        for i_l, a_l in zip(input_word, answer_word):
+        # self.input_status = {i: STATUS.UNKNOWN for i in input_word}
+        self.input_status = [[i, STATUS.UNKNOWN] for i in input_word]
+        for i, i_l, a_l in zip(range(len(input_word)), input_word, answer_word):
             if i_l == a_l:
-                self.input_status[i_l] = STATUS.MATCHED
+                self.input_status[i][1] = STATUS.MATCHED
                 self.alphabet_status[i_l] = STATUS.MATCHED
             elif i_l in answer_word:
-                self.input_status[i_l] = STATUS.AVAILABLE
+                self.input_status[i][1] = STATUS.AVAILABLE
                 if self.alphabet_status[i_l] != STATUS.MATCHED:
                     self.alphabet_status[i_l] = STATUS.AVAILABLE
             else:
@@ -37,7 +38,7 @@ class MyWordle:
                     self.alphabet_status[i_l] != STATUS.MATCHED
                     or self.alphabet_status[i_l] != STATUS.AVAILABLE
                 ):
-                    self.input_status[i_l] = STATUS.MISSING
+                    self.input_status[i][1] = STATUS.MISSING
                     self.alphabet_status[i_l] = STATUS.MISSING
 
     def get_alphabet_status(self, input_word: str, answer_word: str) -> str:
@@ -54,14 +55,14 @@ class MyWordle:
     def get_result(self, input_word: str, answer_word: str) -> str:
         ans_string = "\n" + input_word + "\n"
         self.update_status(input_word, answer_word)
-        ans_string += "".join([self.input_status[i].value for i in input_word])
+        ans_string += "".join([i[1].value for i in self.input_status])
         return ans_string
 
     def is_all_matched(self) -> bool:
-        if self.input_status == {}:
+        if not self.input_status:
             return False
-        for val in self.input_status.values():
-            if val != STATUS.MATCHED:
+        for val in self.input_status:
+            if val[1] != STATUS.MATCHED:
                 return False
         return True
 
