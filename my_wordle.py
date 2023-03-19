@@ -93,4 +93,4 @@ if __name__ == "__main__":
         print("You won the game!!!")
 
     if my_wordle.check_game_status() == GameStatus.LOSE:
-        print("You lose. You can try next time.")
+        print(f"You lose. The answer was {my_wordle.answer}. You can try next time.")
