@@ -1,5 +1,7 @@
 import string
 from enum import Enum
+from random import choice
+from word_list import WORD_LIST
 
 
 class GameStatus(Enum):
@@ -76,10 +78,10 @@ class MyWordle:
 
 if __name__ == "__main__":
     my_wordle = MyWordle()
-    my_wordle.answer = "CIDER"
+    my_wordle.answer = str.upper(choice(WORD_LIST))
     print("Guess a 5 letter word")
     while my_wordle.check_game_status() == GameStatus.CONTINUE:
-        input_str = input()
+        input_str = str.upper(input())
         print(my_wordle.get_result(input_str, my_wordle.answer))
         print(my_wordle.get_alphabet_status(input_str, my_wordle.answer))
         my_wordle.attempts -= 1
