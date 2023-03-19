@@ -2,7 +2,6 @@ import pytest
 import string
 from my_wordle import MyWordle
 from my_wordle import STATUS
-from my_wordle import GameStatus
 
 
 @pytest.fixture
