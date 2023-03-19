@@ -80,7 +80,11 @@ if __name__ == "__main__":
     my_wordle.answer = str.upper(choice(WORD_LIST))
     print("Guess a 5 letter word")
     while my_wordle.check_game_status() == GameStatus.CONTINUE:
-        input_str = str.upper(input())
+        input_str = input()
+        if input_str not in WORD_LIST:
+            print("It is not in my word list. Please try another word.")
+            continue
+        input_str = str.upper(input_str)
         print(my_wordle.get_result(input_str, my_wordle.answer))
         print(my_wordle.get_alphabet_status(input_str, my_wordle.answer))
         my_wordle.attempts -= 1
