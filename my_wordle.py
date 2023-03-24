@@ -53,10 +53,7 @@ class MyWordle:
     def is_all_matched(self) -> bool:
         if not self.input_status:
             return False
-        for val in self.input_status:
-            if val[1] != STATUS.MATCHED:
-                return False
-        return True
+        return all(status == STATUS.MATCHED for _, status in self.input_status)
 
     def check_game_status(self) -> GameStatus:
         if self.is_all_matched():
