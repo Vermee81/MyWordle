@@ -44,13 +44,6 @@ class MyWordle:
             status.value for status in self.alphabet_status.values()
         )
 
-    def get_string_status(self) -> str:
-        string_status = "\n" + string.ascii_uppercase + "\n"
-        for l in string.ascii_uppercase:
-            status = self.alphabet_status[l]
-            string_status += status.value
-        return string_status
-
     def get_result(self, input_word: str, answer_word: str) -> str:
         self.update_status(input_word, answer_word)
         return f"\n{input_word}\n" + "".join(

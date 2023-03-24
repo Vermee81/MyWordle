@@ -28,50 +28,6 @@ def test_使っていればマル使っていなければバツ(my_wordle):
     assert gotten == expected_string
 
 
-# アルファベットの正答状態から画面に表示する文字列を返す
-def test_どの文字も使うかどうかわからない状態の時は全部はてな(my_wordle):
-    status = {a: STATUS.UNKNOWN for a in string.ascii_uppercase}
-    my_wordle.alphabet_status = status
-    expected_string = "\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n??????????????????????????"
-    gotten = my_wordle.get_string_status()
-    assert gotten == expected_string
-
-
-def test_DとRとIがMATCHしててAとBがAVAILABLEでCがMISSINGで他ははてな(my_wordle):
-    status = {
-        "A": STATUS.AVAILABLE,
-        "B": STATUS.AVAILABLE,
-        "C": STATUS.MISSING,
-        "D": STATUS.MATCHED,
-        "E": STATUS.UNKNOWN,
-        "F": STATUS.UNKNOWN,
-        "G": STATUS.UNKNOWN,
-        "H": STATUS.UNKNOWN,
-        "I": STATUS.MATCHED,
-        "J": STATUS.UNKNOWN,
-        "K": STATUS.UNKNOWN,
-        "L": STATUS.UNKNOWN,
-        "M": STATUS.UNKNOWN,
-        "N": STATUS.UNKNOWN,
-        "O": STATUS.UNKNOWN,
-        "P": STATUS.UNKNOWN,
-        "Q": STATUS.UNKNOWN,
-        "R": STATUS.MATCHED,
-        "S": STATUS.UNKNOWN,
-        "T": STATUS.UNKNOWN,
-        "U": STATUS.UNKNOWN,
-        "V": STATUS.UNKNOWN,
-        "W": STATUS.UNKNOWN,
-        "X": STATUS.UNKNOWN,
-        "Y": STATUS.UNKNOWN,
-        "Z": STATUS.UNKNOWN,
-    }
-    my_wordle.alphabet_status = status
-    gotten = my_wordle.get_string_status()
-    expected_string = "\nABCDEFGHIJKLMNOPQRSTUVWXYZ\nAAXO????O????????O????????"
-    assert gotten == expected_string
-
-
 def test_入力した1文字が位置して1文字が存在して他はハズレ(my_wordle):
     input_word = "BLIND"
     ans_word = "PRIDE"
