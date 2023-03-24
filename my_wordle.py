@@ -68,7 +68,7 @@ if __name__ == "__main__":
     my_wordle.answer = str.upper(choice(WORD_LIST))
     print("Guess a 5 letter word")
     while my_wordle.check_game_status() == GameStatus.CONTINUE:
-        input_str = input()
+        input_str = str.lower(input())
         if input_str not in WORD_LIST:
             print("It is not in my word list. Please try another word.")
             continue
