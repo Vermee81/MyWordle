@@ -26,46 +26,34 @@ class MyWordle:
 
     def update_status(self, input_word: str, answer_word: str):
         self.input_status = [[i, STATUS.UNKNOWN] for i in input_word]
-        for i, i_l, a_l in zip(range(len(input_word)), input_word, answer_word):
+        for i, (i_l, a_l) in enumerate(zip(input_word, answer_word)):
             if i_l == a_l:
-                self.input_status[i][1] = STATUS.MATCHED
-                self.alphabet_status[i_l] = STATUS.MATCHED
+                self.input_status[i][1] = self.alphabet_status[i_l] = STATUS.MATCHED
             elif i_l in answer_word:
                 self.input_status[i][1] = STATUS.AVAILABLE
                 if self.alphabet_status[i_l] != STATUS.MATCHED:
                     self.alphabet_status[i_l] = STATUS.AVAILABLE
             else:
-                if (
-                    self.alphabet_status[i_l] != STATUS.MATCHED
-                    or self.alphabet_status[i_l] != STATUS.AVAILABLE
-                ):
+                if self.alphabet_status[i_l] not in (STATUS.MATCHED, STATUS.AVAILABLE):
                     self.input_status[i][1] = STATUS.MISSING
                     self.alphabet_status[i_l] = STATUS.MISSING
 
     def get_alphabet_status(self, input_word: str, answer_word: str) -> str:
         self.update_status(input_word, answer_word)
-        return self.get_string_status()
-
-    def get_string_status(self) -> str:
-        string_status = "\n" + string.ascii_uppercase + "\n"
-        for l in string.ascii_uppercase:
-            status = self.alphabet_status[l]
-            string_status += status.value
-        return string_status
+        return f"\n{string.ascii_uppercase}\n" + "".join(
+            status.value for status in self.alphabet_status.values()
+        )
 
     def get_result(self, input_word: str, answer_word: str) -> str:
-        ans_string = "\n" + input_word + "\n"
         self.update_status(input_word, answer_word)
-        ans_string += "".join([i[1].value for i in self.input_status])
-        return ans_string
+        return f"\n{input_word}\n" + "".join(
+            status.value for _, status in self.input_status
+        )
 
     def is_all_matched(self) -> bool:
         if not self.input_status:
             return False
-        for val in self.input_status:
-            if val[1] != STATUS.MATCHED:
-                return False
-        return True
+        return all(status == STATUS.MATCHED for _, status in self.input_status)
 
     def check_game_status(self) -> GameStatus:
         if self.is_all_matched():
@@ -80,7 +68,7 @@ if __name__ == "__main__":
     my_wordle.answer = str.upper(choice(WORD_LIST))
     print("Guess a 5 letter word")
     while my_wordle.check_game_status() == GameStatus.CONTINUE:
-        input_str = input()
+        input_str = str.lower(input())
         if input_str not in WORD_LIST:
             print("It is not in my word list. Please try another word.")
             continue
@@ -91,6 +79,5 @@ if __name__ == "__main__":
 
     if my_wordle.check_game_status() == GameStatus.WIN:
         print("You won the game!!!")
-
-    if my_wordle.check_game_status() == GameStatus.LOSE:
+    else:
         print(f"You lose. The answer was {my_wordle.answer}. You can try next time.")
