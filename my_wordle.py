@@ -26,19 +26,15 @@ class MyWordle:
 
     def update_status(self, input_word: str, answer_word: str):
         self.input_status = [[i, STATUS.UNKNOWN] for i in input_word]
-        for i, i_l, a_l in zip(range(len(input_word)), input_word, answer_word):
+        for i, (i_l, a_l) in enumerate(zip(input_word, answer_word)):
             if i_l == a_l:
-                self.input_status[i][1] = STATUS.MATCHED
-                self.alphabet_status[i_l] = STATUS.MATCHED
+                self.input_status[i][1] = self.alphabet_status[i_l] = STATUS.MATCHED
             elif i_l in answer_word:
                 self.input_status[i][1] = STATUS.AVAILABLE
                 if self.alphabet_status[i_l] != STATUS.MATCHED:
                     self.alphabet_status[i_l] = STATUS.AVAILABLE
             else:
-                if (
-                    self.alphabet_status[i_l] != STATUS.MATCHED
-                    or self.alphabet_status[i_l] != STATUS.AVAILABLE
-                ):
+                if self.alphabet_status[i_l] not in (STATUS.MATCHED, STATUS.AVAILABLE):
                     self.input_status[i][1] = STATUS.MISSING
                     self.alphabet_status[i_l] = STATUS.MISSING
 
