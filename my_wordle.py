@@ -40,7 +40,9 @@ class MyWordle:
 
     def get_alphabet_status(self, input_word: str, answer_word: str) -> str:
         self.update_status(input_word, answer_word)
-        return self.get_string_status()
+        return f"\n{string.ascii_uppercase}\n" + "".join(
+            status.value for status in self.alphabet_status.values()
+        )
 
     def get_string_status(self) -> str:
         string_status = "\n" + string.ascii_uppercase + "\n"
@@ -50,10 +52,10 @@ class MyWordle:
         return string_status
 
     def get_result(self, input_word: str, answer_word: str) -> str:
-        ans_string = "\n" + input_word + "\n"
         self.update_status(input_word, answer_word)
-        ans_string += "".join([i[1].value for i in self.input_status])
-        return ans_string
+        return f"\n{input_word}\n" + "".join(
+            status.value for _, status in self.input_status
+        )
 
     def is_all_matched(self) -> bool:
         if not self.input_status:
